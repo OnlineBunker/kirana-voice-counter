@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kirana Voice Counter</title>
+<style>
+:root{--bg:#fbf6ee;--ink:#1d1a16;--accent:#d9480f;--card:#fff;--mute:#6b645a}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+main{max-width:720px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 4px}p.sub{color:var(--mute);margin:0 0 22px}
+.card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 1px 3px #0002;margin-bottom:16px}
+button{font:inherit;border:0;border-radius:999px;padding:12px 22px;background:var(--accent);color:#fff;cursor:pointer}
+button.alt{background:#fff;color:var(--ink);border:1px solid #cfc7b8}button:disabled{opacity:.5}
+button.rec{background:#b00020}
+#heard{font-size:19px;min-height:28px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid #eee}
+td.n,th.n{text-align:right}tfoot td{font-weight:700;border-bottom:0;font-size:18px}
+.warn{color:#8a5a00;font-size:14px}.err{color:#b00020}
+input[type=text]{font:inherit;width:100%;padding:10px;border:1px solid #cfc7b8;border-radius:8px;margin-bottom:8px}
+</style></head><body><main>
+<h1>Kirana Voice Counter</h1>
+<p class="sub">Boliye apna order in Hindi or Hinglish. Speech is understood by Gnani Prisma and the bill is read back by Gnani Timbre.</p>
+<div class="card">
+ <button id="mic">Tap to speak</button>
+ <button id="clear" class="alt">Clear</button>
+ <p class="sub" style="margin:10px 0 0">Try: "bhaiya do kilo chawal, ek packet Maggi aur teen chai patti"</p>
+</div>
+<div class="card"><div class="sub">Heard</div><div id="heard">-</div><div id="status" class="warn"></div></div>
+<div class="card"><table><thead><tr><th>Item</th><th class="n">Qty</th><th class="n">Rate</th><th class="n">Amount</th></tr></thead>
+<tbody id="rows"></tbody><tfoot><tr><td colspan="3">Total</td><td class="n" id="total">&#8377;0</td></tr></tfoot></table>
+<div id="unm" class="warn"></div></div>
+<div class="card"><div class="sub">No microphone? Type the order instead (no speech credits used)</div>
+<input type="text" id="typed" placeholder="do kilo chawal aur ek litre tel"><button id="go" class="alt">Make bill</button></div>
+<script>
+const $=id=>document.getElementById(id);let rec,chunks=[],lines=[];
+const fmt=n=>Number.isInteger(n)?n:n.toFixed(2);
+function show(d){ $('heard').textContent=d.transcript||'-';
+ $('rows').innerHTML=d.lines.map(l=>`<tr><td>${l.item}</td><td class=n>${fmt(l.qty)} ${l.unit}</td><td class=n>&#8377;${l.price}</td><td class=n>&#8377;${fmt(l.amount)}</td></tr>`).join('');
+ $('total').textContent='\u20b9'+fmt(d.total);
+ $('unm').textContent=d.unmatched.length?'Not in catalogue: '+d.unmatched.join(', '):'';
+ $('status').textContent=d.language?'Language detected: '+d.language:'';
+ speak(d.summary);}
+async function speak(t){try{const r=await fetch('/api/speak',{method:'POST',body:JSON.stringify({text:t})});if(r.ok){new Audio(URL.createObjectURL(await r.blob())).play();}}catch(e){}}
+async function post(url,body,type){$('status').textContent='Working...';
+ const r=await fetch(url,{method:'POST',body,headers:type?{'Content-Type':type}:{}});const d=await r.json();
+ if(!r.ok){$('status').innerHTML='<span class=err>'+d.error+'</span>';return;}show(d);}
+$('mic').onclick=async()=>{
+ if(rec&&rec.state==='recording'){rec.stop();return;}
+ const s=await navigator.mediaDevices.getUserMedia({audio:true});chunks=[];rec=new MediaRecorder(s);
+ rec.ondataavailable=e=>chunks.push(e.data);
+ rec.onstop=()=>{s.getTracks().forEach(t=>t.stop());$('mic').textContent='Tap to speak';$('mic').classList.remove('rec');
+  post('/api/order',new Blob(chunks),rec.mimeType||'audio/webm');};
+ rec.start();$('mic').textContent='Listening... tap to stop';$('mic').classList.add('rec');};
+$('go').onclick=()=>post('/api/text',JSON.stringify({text:$('typed').value}));
+$('clear').onclick=()=>{$('heard').textContent='-';$('rows').innerHTML='';$('total').textContent='\u20b90';$('unm').textContent='';$('status').textContent='';};
+</script></main></body></html>

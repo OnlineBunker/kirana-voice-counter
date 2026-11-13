@@ -1,0 +1,2 @@
+requests
+# record_demo.py only: playwright

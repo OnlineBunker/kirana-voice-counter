@@ -1,0 +1,56 @@
+[
+  {
+    "spoken_text": "bhaiya do kilo chawal, ek packet Maggi aur teen chai patti de dena",
+    "prisma_transcript": "भैया, दो किलो चावल, एक पैकेट मैगी और तीन चाय पत्ती दे देना।",
+    "lines": [
+      [
+        "Rice",
+        2,
+        "kg",
+        120
+      ],
+      [
+        "Maggi noodles",
+        1,
+        "pack",
+        14
+      ],
+      [
+        "Tea leaves",
+        3,
+        "pack",
+        330
+      ]
+    ],
+    "total": 464,
+    "readback_text": "Aapka order: 2 kg Rice, 1 pack Maggi noodles, 3 pack Tea leaves. Total 464 rupaye. Dhanyavaad.",
+    "readback_transcribed": "आपका ऑर्डर टू किलोग्राम राइस, वन पैक मैगी नूडल्स, थ्री पैक टी लीव्स, टोटल फ़ोर हंड्रेड सिक्सटी फ़ोर रुपये। धन्यवाद।"
+  },
+  {
+    "spoken_text": "dedh kilo cheeni, ek litre tel aur ek dozen ande chahiye",
+    "prisma_transcript": "दे दो किलो चीनी, एक लीटर तेल और एक दर्जन अंडे चाहिए।",
+    "lines": [
+      [
+        "Sugar",
+        2,
+        "kg",
+        96
+      ],
+      [
+        "Cooking oil",
+        1,
+        "litre",
+        180
+      ],
+      [
+        "Eggs",
+        12,
+        "pc",
+        96
+      ]
+    ],
+    "total": 372,
+    "readback_text": "Aapka order: 2 kg Sugar, 1 litre Cooking oil, 12 pc Eggs. Total 372 rupaye. Dhanyavaad.",
+    "readback_transcribed": "आपका ऑर्डर टू किलोग्राम शुगर, वन लीटर कुकिंग ऑयल, ट्वेल्व पीसी एग्स, टोटल थ्री हंड्रेड सेवेंटी टू रुपये।"
+  }
+]

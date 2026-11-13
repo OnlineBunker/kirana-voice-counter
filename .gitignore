@@ -1,0 +1,5 @@
+.env
+demo_out/
+vid_build/
+__pycache__/
+*.pyc
