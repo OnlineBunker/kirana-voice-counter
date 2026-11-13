@@ -1,7 +1,7 @@
 import json, subprocess, os
 from PIL import Image, ImageDraw, ImageFont
 import requests
-K = os.environ['GNANI_API_KEY']
+K = open('/tmp/gnani_key.txt').read().strip()
 W, H = 1100, 760
 B = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"; R = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 if not os.path.exists(B):
@@ -35,8 +35,8 @@ tail = [
   "The parser understands Hindi and Hinglish number words like ek, do, teen, dedh and dhai, and units like kilo, gram, litre, packet and dozen. Two kilo chawal becomes two kilograms of rice. Five hundred gram namak becomes half a kilo of salt. If the shopkeeper says an item that is not in the catalogue, the app lists it as not found instead of guessing, so nothing is silently billed wrong."),
  ("How it works", ["1. Browser records the order.   2. ffmpeg makes 16 kHz WAV.", "3. Prisma v3.0 returns the Hindi transcript.", "4. A rule based parser reads quantities and items,", "    for example 'do kilo chawal' = 2 kg rice.", "5. Bill from a small sample catalogue of 14 items.", "6. Timbre reads the total back in Hinglish."],
   "Here is how it works. The browser records the order. Prisma returns the transcript in Hindi. A small rule based parser reads quantities and items, and builds a bill from a sample catalogue of fourteen items. Timbre then reads the order and total back."),
- ("What it does not do", ["Prices are sample prices, not a real shop's.", "Parser covers a fixed list of items and common number words.", "Prisma misheard 'dedh' once in testing; no accuracy claim.", "Tested with synthetic audio only, not real shop noise.", "", "8 unit tests for the parser pass. Code is open source."],
-  "These are the limits. Prices are sample prices. The parser covers a fixed list of items and common number words. In testing Prisma once misheard the Hindi word dedh, so I make no accuracy claim. I tested with synthetic audio only, not real shop noise. The parser has eight unit tests, and the code is open source on Git Hub."),
+ ("What it does not do", ["Prices are sample prices, not a real shop's.", "Parser covers a fixed list of items and common number words.", "Prisma misheard 'dedh' once in testing; no accuracy claim.", "Tested with synthetic audio only, not real shop noise.", "", "8 unit tests for the parser pass. Code is publicly available on GitHub."],
+  "These are the limits. Prices are sample prices. The parser covers a fixed list of items and common number words. In testing Prisma once misheard the Hindi word dedh, so I make no accuracy claim. I tested with synthetic audio only, not real shop noise. The parser has eight unit tests."),
  ("Next steps", ["Use Evon for open ended orders and corrections.", "Add Timbre voices in more languages: Tamil, Kannada, Bengali.", "Test on noisy telephone audio.", "", "Thank you.  #GnaniAI  #GreatIndianAIInternshipChallenge"],
   "Next, I would use Evon to handle open ended orders and corrections, add more Timbre languages, and test on noisy telephone audio. Thank you."),
 ]
